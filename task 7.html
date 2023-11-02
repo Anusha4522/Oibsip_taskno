@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Authentication</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #app {
+            max-width: 400px;
+            margin: 20px auto;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+        }
+        button {
+            background: #0078d4;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        #securedPage {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Login Authentication</h1>
+        <div id="registrationForm">
+            <h2>Register</h2>
+            <input type="text" id="regUsername" placeholder="Username">
+            <input type="password" id="regPassword" placeholder="Password">
+            <button onclick="register()">Register</button>
+        </div>
+        <div id="loginForm">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="login()">Login</button>
+        </div>
+        <div id="securedPage">
+            <h2>Secured Page</h2>
+            <p>Welcome to the secured page!</p>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        const userDatabase = {};
+
+        function register() {
+            const regUsername = document.getElementById('regUsername').value;
+            const regPassword = document.getElementById('regPassword').value;
+
+            if (regUsername && regPassword) {
+                userDatabase[regUsername] = regPassword;
+                alert("Registration successful. You can now login.");
+                showLoginForm();
+            } else {
+                alert("Please fill in both fields.");
+            }
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username in userDatabase && userDatabase[username] === password) {
+                currentUser = username;
+                showSecuredPage();
+            } else {
+                alert("Invalid username or password. Please try again.");
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            showLoginForm();
+        }
+
+        function showSecuredPage() {
+            document.getElementById('registrationForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('securedPage').style.display = 'block';
+        }
+
+        function showLoginForm() {
+            document.getElementById('registrationForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('securedPage').style.display = 'none';
+        }
+
+        // Show the registration form by default
+        showLoginForm();
+    </script>
+</body>
+</html>
+
